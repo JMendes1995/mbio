@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: install python
+      apt:
+          name: "{{item}}"
+          state: present
+          update_cache: yes
+      loop:
+        - python3
+        - python3-pip
+        - awscli
+
+    - name: Install boto3 and botocore with pip3 module
+      pip:
+        name:
+          - setuptools
+          - boto3
+          - botocore
+        executable: pip

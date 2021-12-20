@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: install nginx packages
+      apt:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+        - curl
+        - nginx
+
+    - name: Add static site config files
+      template:
+        src: ../../web-page/index.html
+        dest: /var/www/html/index.nginx-debian.html
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart Nginx
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: reloaded

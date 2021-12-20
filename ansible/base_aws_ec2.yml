@@ -1,0 +1,12 @@
+---
+plugin: aws_ec2
+aws_profile: default
+regions:
+  - eu-central-1
+filters:
+  tag:Name:
+    - bastion*
+  instance-state-name : running
+keyed_groups:
+    - prefix: module
+      key: tags['module']
